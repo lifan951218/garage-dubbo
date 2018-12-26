@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lifan.garage.mapper.GarageInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lifan.garage.pojo.GarageInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="latitude" jdbcType="REAL" property="latitude" />
+    <result column="longtitude" jdbcType="REAL" property="longtitude" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="total_num" jdbcType="INTEGER" property="totalNum" />
+    <result column="free_num" jdbcType="INTEGER" property="freeNum" />
+    <result column="price_per_hour" jdbcType="REAL" property="pricePerHour" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, latitude, longtitude, address, total_num, free_num, price_per_hour
+  </sql>
+  <select id="selectByExample" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from garage_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.lifan.garage.pojo.GarageInfo">
+    select 
+    <include refid="Base_Column_List" />
+    from garage_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from garage_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfoExample">
+    delete from garage_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfo">
+    insert into garage_info (id, latitude, longtitude, 
+      address, total_num, free_num, 
+      price_per_hour)
+    values (#{id,jdbcType=INTEGER}, #{latitude,jdbcType=REAL}, #{longtitude,jdbcType=REAL}, 
+      #{address,jdbcType=VARCHAR}, #{totalNum,jdbcType=INTEGER}, #{freeNum,jdbcType=INTEGER}, 
+      #{pricePerHour,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfo">
+    insert into garage_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longtitude != null">
+        longtitude,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="totalNum != null">
+        total_num,
+      </if>
+      <if test="freeNum != null">
+        free_num,
+      </if>
+      <if test="pricePerHour != null">
+        price_per_hour,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="longtitude != null">
+        #{longtitude,jdbcType=REAL},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null">
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="freeNum != null">
+        #{freeNum,jdbcType=INTEGER},
+      </if>
+      <if test="pricePerHour != null">
+        #{pricePerHour,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfoExample" resultType="java.lang.Long">
+    select count(*) from garage_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update garage_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=REAL},
+      </if>
+      <if test="record.longtitude != null">
+        longtitude = #{record.longtitude,jdbcType=REAL},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalNum != null">
+        total_num = #{record.totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.freeNum != null">
+        free_num = #{record.freeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.pricePerHour != null">
+        price_per_hour = #{record.pricePerHour,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update garage_info
+    set id = #{record.id,jdbcType=INTEGER},
+      latitude = #{record.latitude,jdbcType=REAL},
+      longtitude = #{record.longtitude,jdbcType=REAL},
+      address = #{record.address,jdbcType=VARCHAR},
+      total_num = #{record.totalNum,jdbcType=INTEGER},
+      free_num = #{record.freeNum,jdbcType=INTEGER},
+      price_per_hour = #{record.pricePerHour,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfo">
+    update garage_info
+    <set>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="longtitude != null">
+        longtitude = #{longtitude,jdbcType=REAL},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null">
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="freeNum != null">
+        free_num = #{freeNum,jdbcType=INTEGER},
+      </if>
+      <if test="pricePerHour != null">
+        price_per_hour = #{pricePerHour,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lifan.garage.com.lifan.garage.pojo.GarageInfo">
+    update garage_info
+    set latitude = #{latitude,jdbcType=REAL},
+      longtitude = #{longtitude,jdbcType=REAL},
+      address = #{address,jdbcType=VARCHAR},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      free_num = #{freeNum,jdbcType=INTEGER},
+      price_per_hour = #{pricePerHour,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="reduceFreeNum" parameterType="java.lang.Integer" >
+    update garage_info
+    set free_num = free_num - 1
+    where id = #{garageId}
+  </update>
+
+  <update id="addFreeNum" parameterType="java.lang.Integer" >
+    update garage_info
+    set free_num = free_num + 1
+    where id = #{garageId}
+  </update>
+</mapper>
