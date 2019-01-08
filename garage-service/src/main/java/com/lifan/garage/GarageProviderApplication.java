@@ -1,9 +1,7 @@
 package com.lifan.garage;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubboConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -12,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  * 2018/12/24 21:22
  */
 
-@ImportResource(value = {"classpath:dubbo-provider.xml"})
+@ImportResource(value = {"classpath:dubbo-garage-provider.xml"})
 @SpringBootApplication
 //@EnableDubboConfig
 public class GarageProviderApplication {

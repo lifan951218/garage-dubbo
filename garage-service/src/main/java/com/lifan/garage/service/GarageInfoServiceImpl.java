@@ -5,6 +5,8 @@ import com.lifan.garage.pojo.GarageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @author LIFAN
@@ -13,19 +15,22 @@ import org.springframework.stereotype.Service;
 //@com.alibaba.dubbo.config.annotation.Service
 @Service("garageInfoService")
 public class GarageInfoServiceImpl implements GarageInfoService{
-
-
     @Autowired
     private GarageInfoMapper garageInfoMapper;
 
     @Override
+    public List<GarageInfo> getAllGarage(){
+        return garageInfoMapper.selectAll();
+    }
+
+    @Override
     public GarageInfo getGarageInfo(int garageId){
-        return garageInfoMapper.selectByPrimaryKey(garageId);
+        return garageInfoMapper.selectById(garageId);
     }
 
     @Override
     public int getFreeNum(int garageId){
-        GarageInfo garageInfo = garageInfoMapper.selectByPrimaryKey(garageId);
+        GarageInfo garageInfo = garageInfoMapper.selectById(garageId);
         return garageInfo.getFreeNum();
     }
 

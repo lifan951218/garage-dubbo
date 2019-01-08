@@ -4,12 +4,17 @@ import com.lifan.garage.pojo.GarageInfo;
 import com.lifan.garage.pojo.GarageInfoExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
 @Mapper
 public interface GarageInfoMapper {
+    String TABLE_NAME = "garage_info";
+    String INSERT_FIELDS = " latitude, longtitude, address, total_num, free_num, price_per_hour ";
+    String SELECT_FIELDS = " id, " + INSERT_FIELDS;
+
     long countByExample(GarageInfoExample example);
 
     int deleteByExample(GarageInfoExample example);
@@ -22,7 +27,8 @@ public interface GarageInfoMapper {
 
     List<GarageInfo> selectByExample(GarageInfoExample example);
 
-    GarageInfo selectByPrimaryKey(Integer id);
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
+    GarageInfo selectById(int id);
 
     int updateByExampleSelective(@Param("record") GarageInfo record, @Param("example") GarageInfoExample example);
 
@@ -32,7 +38,10 @@ public interface GarageInfoMapper {
 
     int updateByPrimaryKey(GarageInfo record);
 
-    @Update({"update garage_info set free_num=#{num} where id=#{garageId}"})
+    @Select({"select * from ", TABLE_NAME})
+    List<GarageInfo> selectAll();
+
+    @Update({"update" + TABLE_NAME  + " set free_num=#{num} where id=#{garageId}"})
     int reduceFreeNum(@Param("garageId") int garageId, @Param("num") int num);
 
     int addFreeNum(@Param("garageId") int garageId);

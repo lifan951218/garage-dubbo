@@ -12,8 +12,10 @@
         <module>garage-service</module>
         <module>order-api</module>
         <module>order-service</module>
+        <module>user-service</module>
         <module>dubbo-consumer</module>
         <module>mybatis-generator</module>
+        <module>common</module>
     </modules>
 
     <name>garage-web</name>

@@ -1,31 +1,30 @@
 package com.lifan.order.mapper;
 
 import com.lifan.order.pojo.OrderInfo;
-import com.lifan.order.pojo.OrderInfoExample;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+@Mapper
 public interface OrderInfoMapper {
-    long countByExample(OrderInfoExample example);
+    String TABLE_NAME = " order_info ";
+    String INSERT_FIELDS = " username, car_num, garage_num, action_time, start_time";
+    String SELECT_FIELDS = " order_id, " + INSERT_FIELDS;
 
-    int deleteByExample(OrderInfoExample example);
+    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
+            ") values (#{username},#{carNum},#{garageNum},#{actionTime},#{startTime})"})
+    int addOrder(OrderInfo orderInfo);
 
-    int deleteByPrimaryKey(Integer orderId);
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where order_id=#{id}"})
+    OrderInfo selectById(int id);
 
-    int insert(OrderInfo record);
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where username=#{username}"})
+    OrderInfo selectByUsername(String username);
 
-    int insertSelective(OrderInfo record);
+    @Select({"select * from ", TABLE_NAME})
+    List<OrderInfo> selectAll();
 
-    List<OrderInfo> selectByExample(OrderInfoExample example);
+    @Delete({"delete from ", TABLE_NAME, " where order_id=#{id}"})
+    void deleteById(int id);
 
-    OrderInfo selectByPrimaryKey(Integer orderId);
-
-    int updateByExampleSelective(@Param("record") OrderInfo record, @Param("example") OrderInfoExample example);
-
-    int updateByExample(@Param("record") OrderInfo record, @Param("example") OrderInfoExample example);
-
-    int updateByPrimaryKeySelective(OrderInfo record);
-
-    int updateByPrimaryKey(OrderInfo record);
 }
