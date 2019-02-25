@@ -12,17 +12,20 @@
         ">
 
 	<!-- 为当前服务提供者取个名字，并且提供给注册中心 -->
-	<dubbo:application name="dubbo-garage-service"></dubbo:application>
+	<dubbo:application name="dubbo-order-service"></dubbo:application>
 
 	<!-- 注册中心的配置，使用zk暴露服务 -->
-	<dubbo:registry protocol="zookeeper" address="localhost:2181"></dubbo:registry>
+	<dubbo:registry protocol="zookeeper" address="192.168.43.131:2181"></dubbo:registry>
 
 	<!-- 定义暴露服务的端口号 -->
-	<dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
+	<dubbo:protocol name="dubbo" port="20882"></dubbo:protocol>
 
 	<!-- 暴露具体的服务接口 -->
-	<dubbo:service retries="3" interface="com.lifan.garage.service.GarageInfoService"
-				   ref="garageInfoService"></dubbo:service>
+	<dubbo:service retries="3" interface="com.lifan.order.service.OrderService"
+				   ref="orderService"></dubbo:service>
+
+	<dubbo:service retries="3" interface="com.lifan.order.service.ParkingService"
+				   ref="parkingService"></dubbo:service>
 
 	<!--<context:component-scan base-package="com.lifan.garage"/>-->
 

@@ -41,8 +41,9 @@ public interface GarageInfoMapper {
     @Select({"select * from ", TABLE_NAME})
     List<GarageInfo> selectAll();
 
-    @Update({"update" + TABLE_NAME  + " set free_num=#{num} where id=#{garageId}"})
-    int reduceFreeNum(@Param("garageId") int garageId, @Param("num") int num);
+    @Update({"update" + TABLE_NAME  + " set free_num=free_num-1 where id=#{garageId}"})
+    int reduceFreeNum(@Param("garageId") int garageId);
 
+    @Update({"update" + TABLE_NAME  + " set free_num=free_num+1 where id=#{garageId}"})
     int addFreeNum(@Param("garageId") int garageId);
 }

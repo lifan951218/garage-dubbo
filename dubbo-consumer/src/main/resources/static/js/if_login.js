@@ -17,32 +17,30 @@ var datas={
 };
 console.log($ticket);
 
-$(function(){
-    //console.log($ticket);
-    if($ticket != ""){
-        var datas = {
-            ticket: $ticket
-        };
-        //判断ticket是否有效
-        $.ajax({
-            url: '/member/ifTicket',
-            type: 'post',
+//console.log($ticket);
+if($ticket != ""){
+    var datas = {
+        ticket: $ticket
+    };
+    //判断ticket是否有效
+    $.ajax({
+        url: '/member/ifTicket',
+        type: 'post',
 //          dataType: 'json',
-            data: datas,
-            success: function (json) {
-                console.log(json);
-                if (json == "0") {
-                    window.location.href = 'signin.html';//未登录跳转到登录界面
-                }
-            },
-            error: function () {
-                alert('false');
+        data: datas,
+        success: function (json) {
+            console.log(json);
+            if (json == "0") {
+                window.location.href = 'signin.html';//未登录跳转到登录界面
             }
-        })
-    }else{
-        window.location.href = 'signin.html';//未登录跳转到登录界面
-    }
-});
+        },
+        error: function () {
+            alert('false');
+        }
+    })
+}else{
+    window.location.href = 'signin.html';//未登录跳转到登录界面
+}
 
 
 function logout(){

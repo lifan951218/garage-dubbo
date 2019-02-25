@@ -35,8 +35,8 @@ public class GarageInfoServiceImpl implements GarageInfoService{
     }
 
     @Override
-    public void reduceFreeNum(int garageId,int num){
-        garageInfoMapper.reduceFreeNum(garageId,num);
+    public void reduceFreeNum(int garageId){
+        garageInfoMapper.reduceFreeNum(garageId);
     }
 
     @Override

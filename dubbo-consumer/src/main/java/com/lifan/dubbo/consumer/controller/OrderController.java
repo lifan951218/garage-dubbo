@@ -2,6 +2,7 @@ package com.lifan.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.common.json.JSON;
 import com.lifan.common.utils.JSONResult;
+import com.lifan.dubbo.consumer.lock.impl.JedisLock;
 import com.lifan.garage.pojo.GarageInfo;
 import com.lifan.garage.service.GarageInfoService;
 import com.lifan.member.pojo.Member;
@@ -42,22 +43,36 @@ public class OrderController {
     @Autowired
     private ParkingService parkingService;
 
+    private static final String LOCK_NO = "redis_lock_no_";
+
     //预约
     @RequestMapping(value = "/add_order",method = {RequestMethod.POST})
     public String addOrder(@RequestParam("username") String username,
                            @RequestParam("garageNum") int garageNum,
                            @RequestParam("startTime") String startTime) {
-        if(orderService.getOrderByUsername(username) == null){
-            Member member = memberService.getMemberByUsername(username);
-            OrderInfo orderInfo = new OrderInfo();
-            orderInfo.setUsername(username);
-            orderInfo.setCarNum(member.getCarNum());
-            orderInfo.setStartTime(startTime);
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//设置日期格式
-            orderInfo.setActionTime(df.format(new Date()));
-            orderInfo.setGarageNum(garageNum);
-            orderService.createOrder(orderInfo);
-            return "1";
+        if(orderService.getOrderByUsername(username) == null) {
+            JedisLock lock = new JedisLock(LOCK_NO + "add");
+            if (lock.acquire()) {
+                try{
+                    if (garageInfoService.getFreeNum(garageNum) > 0) {
+                        Member member = memberService.getMemberByUsername(username);
+                        OrderInfo orderInfo = new OrderInfo();
+                        orderInfo.setUsername(username);
+                        orderInfo.setCarNum(member.getCarNum());
+                        orderInfo.setStartTime(startTime);
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//设置日期格式
+                        orderInfo.setActionTime(df.format(new Date()));
+                        orderInfo.setGarageNum(garageNum);
+                        orderService.createOrder(orderInfo);
+                        garageInfoService.reduceFreeNum(garageNum);
+                        return "1";
+                    }
+                    return "0";
+                } finally {
+                    lock.release();
+                }
+            }
+
         }
         return "0";
     }
@@ -79,11 +94,20 @@ public class OrderController {
 
     //取消预约
     @RequestMapping(value = "/delete_order",method = {RequestMethod.POST})
-    public String deleteOrder(@RequestParam("orderId") int orderId) {
-         orderService.deleteOrder(orderId);
-         return "1";
+    public String deleteOrder(@RequestParam("orderId") int orderId,
+                              @RequestParam("garageNum") int garageNum) {
+        JedisLock lock = new JedisLock(LOCK_NO + "delete");
+        if (lock.acquire()) {
+            try{
+                orderService.deleteOrder(orderId);
+                garageInfoService.addFreeNum(garageNum);
+                return "1";
+            } finally {
+                lock.release();
+            }
+        }
+        return "1";
     }
-
 
     //获得停车订单信息
     @RequestMapping(value = "/get_parking_info",method = {RequestMethod.GET})

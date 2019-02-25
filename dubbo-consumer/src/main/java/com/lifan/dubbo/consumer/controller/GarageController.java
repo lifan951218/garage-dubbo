@@ -1,7 +1,6 @@
 package com.lifan.dubbo.consumer.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.lifan.dubbo.service.RpcService;
 import com.lifan.garage.pojo.GarageInfo;
 import com.lifan.garage.service.GarageInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import javax.annotation.Resources;
 import java.util.List;
 
 /**
@@ -34,6 +30,8 @@ public class GarageController {
     public List<GarageInfo> getGarageInfo() {
          return garageInfoService.getAllGarage();
     }
+
+
 
 
 

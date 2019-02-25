@@ -15,7 +15,7 @@
 	<dubbo:application name="dubbo-order-service"></dubbo:application>
 
 	<!-- 注册中心的配置，使用zk暴露服务 -->
-	<dubbo:registry protocol="zookeeper" address="192.168.43.131:2181"></dubbo:registry>
+	<dubbo:registry protocol="zookeeper" address="localhost:2183"></dubbo:registry>
 
 	<!-- 定义暴露服务的端口号 -->
 	<dubbo:protocol name="dubbo" port="20882"></dubbo:protocol>

@@ -10,7 +10,7 @@
 	<dubbo:application name="dubbo-web"></dubbo:application>
 	
 	<!-- 注册中心的配置，用于消费者的监听 -->
-	<dubbo:registry protocol="zookeeper" address="zookeeper://localhost:2184"></dubbo:registry>
+	<dubbo:registry protocol="zookeeper" address="zookeeper://192.168.43.130:2181"></dubbo:registry>
 	
 	<!-- 监听服务，通过注册中心去进行查找，查找到后进行服务调用 -->
 	<dubbo:reference id="garageInfoService" interface="com.lifan.garage.service.GarageInfoService"

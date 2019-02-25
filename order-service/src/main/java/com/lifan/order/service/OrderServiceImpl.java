@@ -27,11 +27,11 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public boolean createOrder(OrderInfo order) {
-        boolean temp = false;
+        boolean result = false;
         if(orderInfoMapper.addOrder(order)>0){
-            temp = true;
+            result = true;
         }
-        return temp;
+        return result;
     }
 
     @Override

@@ -16,7 +16,7 @@ public interface GarageInfoService {
 
     int getFreeNum(int garageId);
 
-    void reduceFreeNum(int garageId,int num);
+    void reduceFreeNum(int garageId);
 
     void addFreeNum(int garageId);
 }
