@@ -108,6 +108,17 @@ public class JedisLock implements DistributedLock {
      * 释放锁
      */
     public synchronized void release() {
+        // 释放锁的时候，有可能因为持锁之后方法执行时间大于锁的有效期，此时有可能已经被另外一个线程持有锁，所以不能直接删除
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("if redis.call(\"get\",KEYS[1]) == ARGV[1] ");
+//        sb.append("then ");
+//        sb.append("    return redis.call(\"del\",KEYS[1]) ");
+//        sb.append("else ");
+//        sb.append("    return 0 ");
+//        sb.append("end ");
+//        UNLOCK_LUA = sb.toString();
+// 使用lua脚本删除redis中匹配value的key，可以避免由于方法执行时间过长而redis锁自动过期失效的时候误删其他线程的锁
+
         if(redisTemplate == null){
             redisTemplate = SpringContextUtil.getBean(StringRedisTemplate.class);
         }
